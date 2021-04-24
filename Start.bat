@@ -1,0 +1,3 @@
+pip install Flask
+py -m venv env
+env\Scripts\activate

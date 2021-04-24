@@ -1,0 +1,5 @@
+.vscode
+env/Include
+env/__pycache__
+env/Lib
+env/Scripts
