@@ -6,9 +6,10 @@ Sebuah webapp untuk membantumu mengingat _deadline-deadline_-mu
 * Koneksi internet
 
 ## Cara Menggunakan
-* Buka terminal
 * Jalankan Start.bat
-* Jalankan RunWeb.bat
+* Buka terminal di folder utama
+* Jalankan perintah ```Activate```
+* Jalankan perintah ```RunWeb```
 
 ## Author
 * 13519012 - Kahfi Soobhan Zulkifli
