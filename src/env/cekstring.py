@@ -1,3 +1,4 @@
+import boyermoore as bm
 import re
 
 # Penyiapan data-data kata penting
@@ -7,8 +8,6 @@ daftarkata.append("Tucil")
 daftarkata.append("Tubes")
 daftarkata.append("Praktikum")
 daftarkata.append("Ujian")
-
-print(daftarkata)
 
 # Penyiapan data-data matkul
 daftarmatkul = []
@@ -24,8 +23,6 @@ daftarmatkul.append("IF2240")
 daftarmatkul.append("Basdat")
 daftarmatkul.append("IF2250")
 daftarmatkul.append("RPL")
-
-print(daftarmatkul)
 
 # Program MintaTugas
 # Spesifikasi: Meminta tugas
@@ -43,10 +40,6 @@ kalimat = temp.split()
 # regex_kode = ''
 # regex_jenistugas = ''
 topik = 'c++|java|brute force|dokumen|implementasi|aplikasi|pl'
-
-# if re.search("\d{2}[-/]\d{2}[-/]\d{4}", temp) and re.search("if22[1-5][0-1]", temp) and re.search("Kuis|Tucil|Tubes|Praktikum|Ujian",temp) and re.search(topik,temp):
-#     print("True")
-    # Proses dengan string matching
 
 # Mengecek apakah ada keyword tanggal
 adaTanggal = False
