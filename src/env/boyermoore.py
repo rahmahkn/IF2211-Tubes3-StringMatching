@@ -75,8 +75,8 @@ def search(txt, pat):
  
 # Driver program to test above function
 def main():
-    txt = "ABAAABCD"
-    pat = "ABC"
+    txt = "EIFSFDEIEF STIMA OJRFJF"
+    pat = "STIMA"
     search(txt, pat)
  
 if __name__ == '__main__':
