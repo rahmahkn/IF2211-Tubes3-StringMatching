@@ -1,12 +1,16 @@
 from datetime import datetime
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
+import json
 from forms import RegistrationForm, LoginForm
+# import eel
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '3a205bf67513a0fec73bea7aa4fc8b7d'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
 db = SQLAlchemy(app)
+# eel.init('templates')
+# eel.start('layout.html')
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,24 +34,46 @@ class Post(db.Model):
         return f"Post('{self.title}', '{self.date_posted}')"
 
 posts = [
-    {
-        'author': 'Allief Nuriman',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 22, 2021' 
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 23, 2021' 
-    },
+    # {
+    #     'author': 'Allief Nuriman',
+    #     'title': 'Blog Post 1',
+    #     'content': 'First post content',
+    #     'date_posted': 'April 22, 2021' 
+    # },
+    # {
+    #     'author': 'Jane Doe',
+    #     'title': 'Blog Post 2',
+    #     'content': 'Second post content',
+    #     'date_posted': 'April 23, 2021' 
+    # },
 ]
+
+# print("Calling javasciprt")
+# print(eel.getMessageText())
 
 @app.route("/")
 @app.route("/home")
 def home():
     return render_template('home.html', posts = posts)
+
+@app.route("/processSentMessage", methods=['POST'])
+def process_message():
+    req = request.get_json()
+
+    print(req)
+
+    res = make_response(jsonify({"message": "JSON received"}), 200)
+
+    return res
+
+# @eel.expose
+# def process_message(sentMessage):
+#     print(sentMessage+sentMessage)
+
+# process_message('test')
+# eel.getReplyMessage('test')
+
+# eel.start('layout.html')
 
 @app.route("/about")
 def about():
