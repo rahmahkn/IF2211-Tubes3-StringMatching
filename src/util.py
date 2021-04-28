@@ -99,6 +99,31 @@ def lihatSemuaTaskMinggu(num,db):
     # Cetak tugas
     return cetakTugas(sql, db)
 
+def lihatSemuaTaskJenis(num, jenis, db):
+    date_now = date.today()
+    date_later = date_now + timedelta(weeks=num)
+
+    # Persiapkan query
+    sql = "select * from tugas where TIPE = '" + jenis + "' and '" + str(date_now) + "' <= TENGGAT and TENGGAT <= '"+ str(date_later) +"' order by id"
+
+    # Cetak matkul dengan jenis tugas JENIS selama num weeks ke depan
+    reply = ""
+
+    query = db.execute(sql).fetchall()
+    if (len(query) != 0):
+        for i in range(len(query)):
+            query = str(query)
+            query = query.replace(",","")
+            query = query.replace(")","")
+            query = query.replace("'","")
+            arr_q = query.split()
+            reply += arr_q[2] + '\n'
+    else:
+        reply += "Hore! Tidak ada"
+
+    return (reply)
+    
+
 def lihatSemuaTaskMatkul(nama_matkul, db):
     sql = "select * from tugas where MATKUL = '" + nama_matkul + "' order by id"
 
@@ -121,15 +146,28 @@ def lihatSemuaTaskMatkul(nama_matkul, db):
 # Untuk memperbarui task tertentu
 # Deadline + "diganti" + tanggal
 def updateTask(id, tgl, db):
-    sql = "UPDATE TUGAS SET TENGGAT = '" + str(getDate(tgl))+ "' WHERE id = " + str(id)
-    db.execute(sql)
+    sql = "SELECT * from TUGAS WHERE id = " + str(id)
+    query = db.execute(sql).fetchall()
+    if (len(query) == 0):
+        return ("TASK TIDAK ADA")
+    else:
+        sql = "UPDATE TUGAS SET TENGGAT = '" + str(getDate(tgl))+ "' WHERE id = " + str(id)
+        db.execute(sql)
+        db.commit()
+        return ("TASK ADA")
 
 # Untuk menandai suatu task sudah dikerjakan
 # "Sudah" + "selesai" + ID
 def taskSelesai(id, db):
-    sql = "DELETE FROM TUGAS WHERE ID = " + str(id)
-    db.execute(sql)
-    reply = "Task dengan id " + str(id) + " sudah selesai\n" # Ini buat ngecek doang
+    sql = "SELECT * from TUGAS WHERE id = " + str(id)
+    query = db.execute(sql).fetchall()
+    if (len(query) == 0):
+        reply = "Task tidak ada."
+    else:
+        sql = "DELETE FROM TUGAS WHERE ID = " + str(id)
+        db.execute(sql)
+        db.commit()
+        reply = "Task dengan id " + str(id) + " sudah selesai\n"
 
     return (reply)
 

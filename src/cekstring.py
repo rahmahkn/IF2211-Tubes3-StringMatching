@@ -19,14 +19,14 @@ def get_reply(temp): #halo coba cek fitur audio call biar enak koordinasinye
     topik = "cpp|java|brute force|dokumen|implementasi|aplikasi|pl|[S|s]tring [M|m]atching|A Star|BFS DFS|Webapp|Engimon|OS"
     tanggal = "\d{2}[-/]\d{2}[-/]\d{4}"
     matkul = "[i|I][F|f]22[1-5][0-1]"
-    jenis = "[k|K][u|U][I|i][S|s] \d|[T|t][u|U][c|C][i|I][l|L] \d|[t|T][u|U][b|B][e|E][s|S] \d|[p|P][r|R][a|A][k|K][t|T][I|i][k|K][u|U][m|M]|[u|U][j|J][i|I][a|A][n|N]"
+    jenis = "Kuis|Tucil|Tubes|Praktikum|Ujian"
     deadline = "[D|d]eadline"
     x_mgg = "[1-99] [M|m]inggu"
     x_hari = "[1-99] hari|hari ini"
     diganti = "diganti"
     done = "sudah|selesai|kelar"
     bantu = "bantu|lakukan"
-    id_task = "[T|t]ask [1-99] "
+    id_task = "[T|t]ask \d "
 
     # ----------- PEMERIKSAAN KALIMAT USER -----------
     # Mengecek apakah ada keyword tanggal
@@ -132,7 +132,7 @@ def get_reply(temp): #halo coba cek fitur audio call biar enak koordinasinye
             # Cetak daftar tugas untuk X minggu selanjutnya
             return lihatSemuaTaskMinggu(num, db)
         
-        elif (adaMatkul):
+        elif (adaMatkul and not (adaJenis)):
             # Cetak daftar tugas untuk matkul X
             return lihatSemuaTaskMatkul(nama_matkul, db)
 
@@ -141,14 +141,22 @@ def get_reply(temp): #halo coba cek fitur audio call biar enak koordinasinye
             return lihatSemuaTask(db)
 
     # Jenis + N hari/minggu
+    elif (adaJenis and adaMinggu):
+        # Cetak matkul dengan jenis tugas JENIS selama num weeks ke depan
+        return lihatSemuaTaskJenis(num, jenis_tugas, db)
+
     # Deadline + jenis + kode matkul
     elif (adaDeadline and adaDiganti and adaTanggal and adaId):
-        updateTask(id_task, dL_tugas, db)
-        return ("Task berhasil diperbaharui!")
+        if (updateTask(id_task, dL_tugas, db) == "TASK ADA"):
+            return ("Task berhasil diperbaharui!")
+        else:
+            return ("Task "+str(id_task)+" tidak ada!")
 
     elif (adaSelesai and adaId):
-        taskSelesai(id_task, db)
-        return ("Task telah ditandai selesai!")
+        if (taskSelesai(id_task, db) == "Task tidak ada."):
+            return ("Task " + str(id_task) + " tidak ada!")
+        else:
+            return ("Task telah ditandai selesai")
 
     elif (adaBantu):
         return showHelp()
