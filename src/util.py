@@ -10,10 +10,10 @@ def getDate(tgl):
 def cetakTugas(sql,db):
     query = db.execute(sql).fetchall()
     if (len(query) != 0):
-        reply = "[DAFTAR TUGAS]"
+        reply = "[DAFTAR TUGAS]\n"
         for i in range(len(query)):
             reply += str(i+1)+". "
-            reply += printRow(str(query[i]))
+            reply += printRow(str(query[i])) + '\n'
     else:
         reply = "Hore! Tidak ada"
 
@@ -107,7 +107,7 @@ def lihatSemuaTaskMatkul(nama_matkul, db):
     query = db.execute(sql).fetchall()
     if (len(query) != 0):
         for i in range(len(query)):
-            reply += printRow(str(query[i]))
+            reply += printRow(str(query[i])) + '\n'
     else:
         reply += "Hore! Tidak ada"
 
@@ -124,7 +124,7 @@ def updateTask(id, tgl, db):
 def taskSelesai(id, db):
     sql = "DELETE FROM TUGAS WHERE ID = " + str(id)
     db.execute(sql)
-    reply = "Task dengan id " + id + " sudah selesai" # Ini buat ngecek doang
+    reply = "Task dengan id " + str(id) + " sudah selesai\n" # Ini buat ngecek doang
 
     return (reply)
 

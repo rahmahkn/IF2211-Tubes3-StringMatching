@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'main.css') }}">    
     <style type="text/css">
+      img {
+          max-width: auto;
+          align: center;
+      }
+
       .top_menu {
         background-color: #fff;
         width: 100%;
@@ -29,13 +34,13 @@
         position: relative;
       }
       .top_menu .buttons .button.close {
-        background-color: #f5886e;
+        background-color: #00adb5;
       }
       .top_menu .buttons .button.minimize {
-        background-color: #fdbf68;
+        background-color: #393e46;
       }
       .top_menu .buttons .button.maximize {
-        background-color: #a3d063;
+        background-color: #aad8d3;
       }
       .top_menu .title {
         text-align: center;
@@ -46,7 +51,7 @@
       /* Chat containers */
       .container-message {
         border: 2px solid #dedede;
-        background-color: #f5886e;
+        background-color: #00adb5;
         border-radius: 5px;
         padding: 10px;
         margin: 10px 0;
@@ -55,7 +60,7 @@
       /* Darker chat container */
       .darker {
         border-color: #ccc;
-        background-color: #a3d063;
+        background-color: #aad8d3;
       }
 
       /* Clear floats */
@@ -114,10 +119,9 @@
       .bottom_wrapper {
         position: relative;
         box-sizing: border:box;
-        width: 90%;
+        width: 93%;
         background-color: #fff;
         padding: 20px 20px;
-        position: absolute;
         bottom: 0;
       }
       .bottom_wrapper .message_input_wrapper {
@@ -143,8 +147,8 @@
         height: 50px;
         display: inline-block;
         border-radius: 50px;
-        background-color: #a3d063;
-        border: 2px solid #a3d063;
+        background-color: #393e46;
+        border: 2px solid #393e46;
         color: #fff;
         cursor: pointer;
         transition: all 0.2s linear;
@@ -152,7 +156,7 @@
         float: right;
       }
       .bottom_wrapper .send_message:hover {
-        color: #a3d063;
+        color: #393e46;
         background-color: #fff;
       }
       .bottom_wrapper .send_message .text {
@@ -166,7 +170,7 @@
 </head>
 <body>
     <header class="site-header">
-        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: #fdbf68">
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: #393e46">
           <div class="container">
             <a class="navbar-brand mr-4" href="/">Last Task</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -186,57 +190,65 @@
           <div class="col-md-8">
 
           <!-- DISINI BUAT BIKIN ROOM CHATNYA-->
-            <div class="content-section chat-window">
+            <div class="content-section">
+              <div class="chat-window">
+
                 <div class="top_menu">
                     <div class="buttons">
                         <div class="button close"></div>
                         <div class="button minimize"></div>
                         <div class="button maximize"></div>
                     </div>
-                    <div class="title" style="text-align: center; color: #bcbdc0; font-size: 20px">Talk to Our Bot!</div>
+                    <div class="title" style="text-align: center; color: #bcbdc0; font-size: 20px">
+                      Talk to Our Bot!
+                    </div>
                 </div>
                 
                 <ul class="messages">
                   <div class="container-message darker">
-                    <p style="text-align: right; color: #fff">{{message1}}</p>
+                    <p style="text-align: right; color: #fff">
+                      {{message1}}
+                    </p>
                     <span class="time-right">Me</span>
                   </div>
 
                   <div class="container-message">
-                    <p style="color: #fff">{{message2}}</p>
-                    <span class="time-left">LastTaskBot</span>
+                    <p style="color: #fff">
+                      {% for line in message2 %}
+                        {{line}}<br/>
+                      {% endfor %}
+                    </p>
+                    <span class="time-left">Tasksistant</span>
                   </div>
                 </ul>
 
                 <div class="bottom_wrapper clearfix">
                   <form action="/" method="post">
-                    <div class="bottom_wrapper clearfix">
-                        <div class="message_input_wrapper">
-                            <input type="text" name='sentMessage' class="message_input" placeholder="Type your message here..." />
-                        </div>
-                        <div class="send_message">
-                            <input type="submit" class="send_message">
-                            <div class="icon"></div>
-                        </div>
-                    </div>
+                      <div class="message_input_wrapper">
+                          <input type="text" name='sentMessage' class="message_input" placeholder="Type your message here..." />
+                      </div>
+                      <div class="send_message">
+                          <input type="submit" class="send_message">
+                          <div class="icon"></div>
+                      </div>
                   </form>
                 </div>
+
+              </div>
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="content-section">
-              <h3>Our Sidebar</h3>
-              <p class='text-muted'>You can put any information here you'd like.
+              <h3>About Our Bot</h3>
                 <ul class="list-group">
-                  <li class="list-group-item list-group-item-light">Latest Posts</li>
-                  <li class="list-group-item list-group-item-light">Announcements</li>
-                  <li class="list-group-item list-group-item-light">Calendars</li>
-                  <li class="list-group-item list-group-item-light">etc</li>
+                  <img src="https://media.giphy.com/media/l378tbMVnOycjrfa0/giphy.gif">
+                  <li class="list-group-item list-group-item-light">Name: Tasksistant</li>
+                  <li class="list-group-item list-group-item-light">Born: April 28, 2021</li>
                 </ul>
-              </p>
             </div>
           </div>
+          
         </div>
       </main>
  

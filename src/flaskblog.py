@@ -18,8 +18,9 @@ def about():
 def message():
     message = request.form.get("sentMessage", False)
     message_reply = get_reply(message)
+    message_reply = message_reply.split('\n')
 
-    return render_template('home.html', message1 = message, message2 = message_reply)    
+    return render_template('home.html', message1 = message, message2 = message_reply)
 
 if __name__ == '__main__':
     app.run(debug = True)
