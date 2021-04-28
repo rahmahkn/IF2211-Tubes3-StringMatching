@@ -21,3 +21,6 @@ class LoginForm(FlaskForm):
                         validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+class MessageForm(FlaskForm):
+    message = StringField('Message')

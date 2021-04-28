@@ -10,12 +10,14 @@ def getDate(tgl):
 def cetakTugas(sql,db):
     query = db.execute(sql).fetchall()
     if (len(query) != 0):
-        print("[DAFTAR TUGAS]")
+        reply = "[DAFTAR TUGAS]"
         for i in range(len(query)):
-            print(str(i+1)+". ",end='')
-            printRow(str(query[i]))
+            reply += str(i+1)+". "
+            reply += printRow(str(query[i]))
     else:
-        print("Hore! Tidak ada")
+        reply = "Hore! Tidak ada"
+
+    return reply
 
 def printRow(query):
     query = query.replace("(","")
@@ -23,8 +25,10 @@ def printRow(query):
     query = query.replace(")","")
     query = query.replace("'","")
     arr_q = query.split()
-    print("(ID: " + str(arr_q[0]) + ")", end = ' ')
-    print(arr_q[1] + " - " + arr_q[2] + " - " + arr_q[3] + " - " + arr_q[4])
+    reply = "(ID: " + str(arr_q[0]) + ") "
+    reply += arr_q[1] + " - " + arr_q[2] + " - " + arr_q[3] + " - " + arr_q[4]
+
+    return reply
 
 def printRowDate(query):
     query = query.replace("(","")
@@ -32,7 +36,9 @@ def printRowDate(query):
     query = query.replace(")","")
     query = query.replace("'","")
     arr_q = query.split()
-    print(arr_q[3])
+    reply = arr_q[3]
+
+    return reply
 
 # Untuk menambahkan task baru (perlu tanggal, matkul, jenis, materi)
 def tambahTaskBaru(tgl, matkul, jenis, topik, db):
@@ -48,17 +54,17 @@ def tambahTaskBaru(tgl, matkul, jenis, topik, db):
     id_now = id_now.replace(")","")
 
     # Tampilkan pesan bahwa task telah tercatat
-    print("[TASK BERHASIL DICATAT]")
+    reply = "[TASK BERHASIL DICATAT]"
     sql = "SELECT * FROM TUGAS WHERE id = " + id_now
     query = str(db.execute(sql).fetchone())
-    printRow(query)
+    return printRow(query)
 
 # Untuk menampilkan semua task
 def lihatSemuaTask(db):
     sql = "SELECT * FROM TUGAS"
 
     # Cetak tugas
-    cetakTugas(sql,db)
+    return cetakTugas(sql,db)
 
 # Untuk melihat daftar task yang harus dikerjakan antara tanggal_x < tanggal < tanggal_y
 def lihatSemuaTaskInterval(from_date, to_date, db):
@@ -71,7 +77,7 @@ def lihatSemuaTaskInterval(from_date, to_date, db):
     sql = "select * from tugas where '"+str(getDate(from_date))+"' <= TENGGAT and TENGGAT <= '"+str(getDate(to_date))+"' order by id"
 
     # Cetak tugas
-    cetakTugas(sql,db)
+    return cetakTugas(sql,db)
 
 def lihatSemuaTaskHari(num, db):
     date_now = date.today()
@@ -81,7 +87,7 @@ def lihatSemuaTaskHari(num, db):
     sql = "select * from tugas where '"+str(date_now)+"' <= TENGGAT and TENGGAT <= '"+str(date_later)+"' order by id"
 
     # Cetak tugas
-    cetakTugas(sql,db)
+    return cetakTugas(sql,db)
 
 def lihatSemuaTaskMinggu(num,db):
     date_now = date.today()
@@ -91,17 +97,21 @@ def lihatSemuaTaskMinggu(num,db):
     sql = "select * from tugas where '"+str(date_now)+"' <= TENGGAT and TENGGAT <= '"+str(date_later)+"' order by id"
 
     # Cetak tugas
-    cetakTugas(sql, db)
+    return cetakTugas(sql, db)
 
 def lihatSemuaTaskMatkul(nama_matkul, db):
     sql = "select * from tugas where MATKUL = '" + nama_matkul + "' order by id"
 
+    reply = ""
+
     query = db.execute(sql).fetchall()
     if (len(query) != 0):
         for i in range(len(query)):
-            printRowDate(str(query[i]))
+            reply += printRow(str(query[i]))
     else:
-        print("Hore! Tidak ada")
+        reply += "Hore! Tidak ada"
+
+    return reply
 
 # Untuk memperbarui task tertentu
 # Deadline + "diganti" + tanggal
@@ -114,22 +124,27 @@ def updateTask(id, tgl, db):
 def taskSelesai(id, db):
     sql = "DELETE FROM TUGAS WHERE ID = " + str(id)
     db.execute(sql)
-    print("Task dengan id " + id + " sudah selesai") # Ini buat ngecek doang
+    reply = "Task dengan id " + id + " sudah selesai" # Ini buat ngecek doang
+
+    return reply
 
 # Untuk menampilkan opsi help
 def showHelp():
-    print("[Fitur]")
-    print("\t1. Menambahkan task baru")
-    print("\t2. Melihat task yang sudah ada")
-    print("\t3. Melihat task berdasarkan kriteria interval tanggal")
-    print("\t4. Melihat task berdasarkan X minggu ke depan")
-    print("\t5. Melihat task berdasarkan X hari ke depan")
-    print("\t6. Memperbaharui deadline suatu task")
-    print("\t7. Memperbaharui status pengerjaan tugas\n")
-    print("[Daftar kata penting]")
-    print("\t1. Kuis")
-    print("\t2. Ujian")
-    print("\t3. Tucil")
-    print("\t4. Tubes")
-    print("\t5. Praktikum")
-    print("\t6. Seluruh kode matkul IF semester 4")
+    reply = ""
+    reply += "[Fitur]\n"
+    reply += "\t1. Menambahkan task baru\n"
+    reply += "\t2. Melihat task yang sudah ada\n"
+    reply += "\t3. Melihat task berdasarkan kriteria interval tanggal\n"
+    reply += "\t4. Melihat task berdasarkan X minggu ke depan\n"
+    reply += "\t5. Melihat task berdasarkan X hari ke depan\n"
+    reply += "\t6. Memperbaharui deadline suatu task\n"
+    reply += "\t7. Memperbaharui status pengerjaan tugas\n\n"
+    reply += "[Daftar kata penting]\n"
+    reply += "\t1. Kuis\n"
+    reply += "\t2. Ujian\n"
+    reply += "\t3. Tucil\n"
+    reply += "\t4. Tubes\n"
+    reply += "\t5. Praktikum\n"
+    reply += "\t6. Seluruh kode matkul IF semester 4"
+
+    return reply

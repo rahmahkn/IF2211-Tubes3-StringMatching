@@ -5,7 +5,7 @@ import sqlite3
 import re
 
 # Pendefinisian database
-db = sqlite3.connect("data.db")
+db = sqlite3.connect("data.db", check_same_thread=False)
 
 # Keperluan debugging only
 db.execute("DROP TABLE IF EXISTS TUGAS")
@@ -13,10 +13,8 @@ db.execute("CREATE TABLE TUGAS (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, T
 
 temp = ""
 
-while (temp != "exit"):
-    # Minta input kalimat
-    temp = input()
-
+# Mendapatkan pesan balasan dari bot
+def get_reply(temp):
     # Kumpulan regex untuk memeriksa input tambah tugas
     topik = "cpp|java|brute force|dokumen|implementasi|aplikasi|pl|[S|s]tring [M|m]atching|A Star|BFS_DFS|Webapp|Engimon|OS"
     tanggal = "\d{2}[-/]\d{2}[-/]\d{4}"
@@ -28,7 +26,7 @@ while (temp != "exit"):
     diganti = "diganti"
     done = "sudah|selesai|kelar"
     bantu = "bantu|lakukan"
-    id = "[T|t]ask [1-99] "
+    id_task = "[T|t]ask [1-99] "
 
     # ----------- PEMERIKSAAN KALIMAT USER -----------
     # Mengecek apakah ada keyword tanggal
@@ -106,15 +104,15 @@ while (temp != "exit"):
         adaBantu = True
 
     adaId = False
-    if re.search(id, temp):
+    if re.search(id_task, temp):
         adaId = True
-        num_temp = str(re.findall(id, temp, flags = 0)).split()
-        id = int(num_temp[1])
+        num_temp = str(re.findall(id_task, temp, flags = 0)).split()
+        id_task = int(num_temp[1])
 
     # ----------- PEMROSESAN KALIMAT USER -----------
     # Menambahkan tugas
     if (adaTanggal and adaMatkul and adaJenis and adaTopik):
-        tambahTaskBaru(dL_tugas, nama_matkul, jenis_tugas, topik_tugas, db)
+        return tambahTaskBaru(dL_tugas, nama_matkul, jenis_tugas, topik_tugas, db)
 
     # Deadline doang -> tampilin semua
     # Deadline + N minggu
@@ -124,39 +122,38 @@ while (temp != "exit"):
     elif (adaDeadline and not (adaDiganti)):
         if (adaInterval):
             # Cetak pada interval mingguan
-            lihatSemuaTaskInterval(from_date, to_date, db) # Ini buat ngecek doang
+            return lihatSemuaTaskInterval(from_date, to_date, db) # Ini buat ngecek doang
 
         elif (adaHari):
             # Cetak sampai X hari selanjutnya
-            lihatSemuaTaskHari(num, db)
+            return lihatSemuaTaskHari(num, db)
 
         elif (adaMinggu):
             # Cetak daftar tugas untuk X minggu selanjutnya
-            lihatSemuaTaskMinggu(num, db)
+            return lihatSemuaTaskMinggu(num, db)
         
         elif (adaMatkul):
             # Cetak daftar tugas untuk matkul X
-            lihatSemuaTaskMatkul(nama_matkul, db)
+            return lihatSemuaTaskMatkul(nama_matkul, db)
 
         else: 
             # Cetak semua deadline
-            lihatSemuaTask(db)
+            return lihatSemuaTask(db)
 
     # Jenis + N hari/minggu
     # Deadline + jenis + kode matkul
     elif (adaDeadline and adaDiganti and adaTanggal and adaId):
-        updateTask(id, dL_tugas, db)
-        print("Task berhasil diperbaharui!")
+        updateTask(id_task, dL_tugas, db)
+        return ("Task berhasil diperbaharui!")
 
     elif (adaSelesai and adaId):
-        taskSelesai("1", db)
-        print("Task telah ditandai selesai!")
+        return taskSelesai(id_task, db) + ("Task telah ditandai selesai!")
 
     elif (adaBantu):
-        showHelp()
+        return showHelp()
 
     elif (temp == "exit"):
-        print("Sampai jumpa!")
+        return ("Sampai jumpa!")
 
     else:
-        print("Maaf, pesan tidak dikenali")
+        return ("Maaf, pesan tidak dikenali")
