@@ -14,7 +14,7 @@ db.execute("CREATE TABLE TUGAS (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, T
 temp = ""
 
 # Mendapatkan pesan balasan dari bot
-def get_reply(temp):
+def get_reply(temp): #halo coba cek fitur audio call biar enak koordinasinye
     # Kumpulan regex untuk memeriksa input tambah tugas
     topik = "cpp|java|brute force|dokumen|implementasi|aplikasi|pl|[S|s]tring [M|m]atching|A Star|BFS DFS|Webapp|Engimon|OS"
     tanggal = "\d{2}[-/]\d{2}[-/]\d{4}"

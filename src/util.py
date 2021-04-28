@@ -107,7 +107,12 @@ def lihatSemuaTaskMatkul(nama_matkul, db):
     query = db.execute(sql).fetchall()
     if (len(query) != 0):
         for i in range(len(query)):
-            reply += printRow(str(query[i])) + '\n'
+            query = str(query)
+            query = query.replace(",","")
+            query = query.replace(")","")
+            query = query.replace("'","")
+            arr_q = query.split()
+            reply += arr_q[3] + '\n'
     else:
         reply += "Hore! Tidak ada"
 
@@ -139,7 +144,7 @@ def showHelp():
     reply += "\t5. Melihat task berdasarkan X hari ke depan\n"
     reply += "\t6. Memperbaharui deadline suatu task\n"
     reply += "\t7. Memperbaharui status pengerjaan tugas\n\n"
-    reply += "[Daftar kata penting]\n"
+    return (reply)
     reply += "\t1. Kuis\n"
     reply += "\t2. Ujian\n"
     reply += "\t3. Tucil\n"
