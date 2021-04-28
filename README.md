@@ -27,6 +27,12 @@ Flask, SQLAlchemy, Python 3.9, Python Regex library, and the internet.
 Note: This was tested in Windows 10
 
 ## Features
+1. Menambahkan task baru
+2. Melihat daftar task yang harus dikerjakan
+3. Menampilkan deadline dari suatu task tertentu
+4. Memperbaharui task tertentu
+5. Menandai bahwa suatu task sudah selesai dikerjakan
+6. Menampilkan opsi help yang difasilitasi oleh assistant
 
 ## Status
 Completed on April 28th, 2021
