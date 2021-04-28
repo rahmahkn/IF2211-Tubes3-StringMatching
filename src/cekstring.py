@@ -16,10 +16,10 @@ temp = ""
 # Mendapatkan pesan balasan dari bot
 def get_reply(temp):
     # Kumpulan regex untuk memeriksa input tambah tugas
-    topik = "cpp|java|brute force|dokumen|implementasi|aplikasi|pl|[S|s]tring [M|m]atching|A Star|BFS_DFS|Webapp|Engimon|OS"
+    topik = "cpp|java|brute force|dokumen|implementasi|aplikasi|pl|[S|s]tring [M|m]atching|A Star|BFS DFS|Webapp|Engimon|OS"
     tanggal = "\d{2}[-/]\d{2}[-/]\d{4}"
     matkul = "[i|I][F|f]22[1-5][0-1]"
-    jenis = "[k|K][u|U][I|i][S|s]|[T|t][u|U][c|C][i|I][l|L]|[t|T][u|U][b|B][e|E][s|S]|[p|P][r|R][a|A][k|K][t|T][I|i][k|K][u|U][m|M]|[u|U][j|J][i|I][a|A][n|N]"
+    jenis = "[k|K][u|U][I|i][S|s] \d|[T|t][u|U][c|C][i|I][l|L] \d|[t|T][u|U][b|B][e|E][s|S] \d|[p|P][r|R][a|A][k|K][t|T][I|i][k|K][u|U][m|M]|[u|U][j|J][i|I][a|A][n|N]"
     deadline = "[D|d]eadline"
     x_mgg = "[1-99] [M|m]inggu"
     x_hari = "[1-99] hari|hari ini"
@@ -56,14 +56,14 @@ def get_reply(temp):
     adaJenis = False
     if re.search(jenis, temp):
         jenis_tugas_temp = re.findall(jenis, temp, flags = 0)
-        jenis_tugas = jenis_tugas_temp[0]
+        jenis_tugas = jenis_tugas_temp[0].replace(" ", "_")
         adaJenis = True
 
     # Mengecek apakah ada keyword topik
     adaTopik = False
     if re.search(topik, temp):
         topik_tugas_temp = re.findall(topik, temp, flags = 0)
-        topik_tugas = topik_tugas_temp[0]
+        topik_tugas = topik_tugas_temp[0].replace(" ","_")
         adaTopik = True
 
     # Mengecek apakah ada kata "deadline"
@@ -147,7 +147,8 @@ def get_reply(temp):
         return ("Task berhasil diperbaharui!")
 
     elif (adaSelesai and adaId):
-        return taskSelesai(id_task, db) + ("Task telah ditandai selesai!")
+        taskSelesai(id_task, db)
+        return ("Task telah ditandai selesai!")
 
     elif (adaBantu):
         return showHelp()

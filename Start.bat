@@ -1,2 +1,2 @@
 pip install Flask
-py -m venv env
+py -m venv src

@@ -17,7 +17,7 @@ def cetakTugas(sql,db):
     else:
         reply = "Hore! Tidak ada"
 
-    return reply
+    return (reply)
 
 def printRow(query):
     query = query.replace("(","")
@@ -26,9 +26,9 @@ def printRow(query):
     query = query.replace("'","")
     arr_q = query.split()
     reply = "(ID: " + str(arr_q[0]) + ") "
-    reply += arr_q[1] + " - " + arr_q[2] + " - " + arr_q[3] + " - " + arr_q[4]
+    reply += arr_q[1].replace("_", " ") + " - " + arr_q[2] + " - " + arr_q[3] + " - " + arr_q[4].replace("_"," ")
 
-    return reply
+    return (reply)
 
 def printRowDate(query):
     query = query.replace("(","")
@@ -38,7 +38,7 @@ def printRowDate(query):
     arr_q = query.split()
     reply = arr_q[3]
 
-    return reply
+    return (reply)
 
 # Untuk menambahkan task baru (perlu tanggal, matkul, jenis, materi)
 def tambahTaskBaru(tgl, matkul, jenis, topik, db):
@@ -111,7 +111,7 @@ def lihatSemuaTaskMatkul(nama_matkul, db):
     else:
         reply += "Hore! Tidak ada"
 
-    return reply
+    return (reply)
 
 # Untuk memperbarui task tertentu
 # Deadline + "diganti" + tanggal
@@ -126,7 +126,7 @@ def taskSelesai(id, db):
     db.execute(sql)
     reply = "Task dengan id " + id + " sudah selesai" # Ini buat ngecek doang
 
-    return reply
+    return (reply)
 
 # Untuk menampilkan opsi help
 def showHelp():
@@ -147,4 +147,4 @@ def showHelp():
     reply += "\t5. Praktikum\n"
     reply += "\t6. Seluruh kode matkul IF semester 4"
 
-    return reply
+    return (reply)
